@@ -1079,8 +1079,8 @@ public:
         if constexpr (is_mask_v<Type> || std::is_pointer_v<Scalar>) {
             fail_unsupported("hmax_");
         } else {
-            if (Enabled && m_index != 0)
-                fail_unsupported("hmax_: gradients not yet implemented!");
+            //if (Enabled && m_index != 0)
+            //    fail_unsupported("hmax_: gradients not yet implemented!");
             return DiffArray::create(0, hmax(m_value));
         }
     }
