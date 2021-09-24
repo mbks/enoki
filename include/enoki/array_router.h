@@ -257,6 +257,7 @@ ENOKI_ROUTE_UNARY_SCALAR(trunc, trunc, std::trunc(a))
 ENOKI_ROUTE_UNARY_IMM(rol_array, rol_array)
 ENOKI_ROUTE_UNARY_IMM(ror_array, ror_array)
 
+
 template <typename T> auto none(const T &value) {
     return !any(value);
 }
