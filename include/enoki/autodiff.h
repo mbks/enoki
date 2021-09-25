@@ -1075,48 +1075,13 @@ public:
         }
     }
 
-    /*DiffArray hmax_async_() const {
-        if constexpr (!std::is_arithmetic_v<Scalar>) {
-            fail_unsupported("hmax_async_(): invalid operand type!");
-        } else {
-            Type result = hmax_async(m_value);
-            int32_t index_new = 0;
-            if constexpr (Enabled) {
-                if (m_index > 0) {
-                    /* This gradient has duplicate '1' entries when
-                       multiple entries are equal to the maximum, which is
-                       strictly speaking not correct (but getting this right
-                       would make the operation quite a bit more expensive). */
-                    /*index_new = tape()->append(
-                        "hmax_async", 1, m_index, select(
-                            eq(m_value, result), Type(1), Type(0)));
-                }
-            }
-            return DiffArray::create(index_new, std::move(result));
-        }
-    }*/
-
     DiffArray hmax_() const {
         if constexpr (is_mask_v<Type> || std::is_pointer_v<Scalar>) {
             fail_unsupported("hmax_");
         } else {
-            Type result = hmax(m_value);
-            int32_t index_new = 0;
-            if constexpr (Enabled) {
-                if (m_index > 0) {
-                    /* This gradient has duplicate '1' entries when
-                       multiple entries are equal to the maximum, which is
-                       strictly speaking not correct (but getting this right
-                       would make the operation quite a bit more expensive). */
-                    index_new = tape()->append(
-                        "hmax", 1, m_index, select(
-                            eq(m_value, result), Type(1), Type(0)));
-                }
-            }
-            return DiffArray::create(index_new, std::move(result));
-            //if (Enabled && m_index != 0)
-            //    fail_unsupported("hmax_: gradients not yet implemented!");
-            //return DiffArray::create(0, hmax(m_value));
+            if (Enabled && m_index != 0)
+                fail_unsupported("hmax_: gradients not yet implemented!");
+            return DiffArray::create(0, hmax(m_value));
         }
     }
 
