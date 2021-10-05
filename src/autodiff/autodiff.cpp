@@ -821,10 +821,13 @@ void Tape<Value>::forward(Index index, bool free_graph) {
 
 template <typename Value>
 void Tape<Value>::set_gradient(Index index, const Value &value, bool backward) {
-    if (index == 0)
-        throw std::runtime_error(
+    if (index == 0) {
+        std::cout << "No gradients for this variable" << std::endl;
+        return;
+    }
+        /*throw std::runtime_error(
             "set_gradient(): no gradients are associated with this variable (a "
-            "prior call to requires_gradient() is required.) ");
+            "prior call to requires_gradient() is required.) ");*/
 
     d->dfs(index, backward, true);
     Node &node = d->node(index);
